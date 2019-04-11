@@ -10,3 +10,7 @@ body {
 .addImgPreview {
 	width: 250px;
 }
+
+.loginButtons {
+	color: white;
+}

@@ -1,8 +1,12 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
+import {Session} from 'meteor/session'
 
 import './main.html';
 import '../lib/collection.js';
+
+
+Session.set('imglimit', 2);
 
 Template.myJumbo.events({
 	'click .js-addImg'(event){
@@ -60,9 +64,9 @@ Template.mainBody.helpers({
 		var newResults = ImagesDB.find({createdOn: {$gte:prevTime}}).count();
 		if (newResults > 0) {
 			//console.log(newResults, "new image");
-			return ImagesDB.find({}, {sort:{createdOn: -1, imgRate: -1}});
+			return ImagesDB.find({}, {sort:{createdOn: -1, imgRate: -1}, limit:Session.get('imglimit')});
 		} else{
-			return ImagesDB.find({}, {sort:{imgRate: -1, createdOn: 1}});
+			return ImagesDB.find({}, {sort:{imgRate: -1, createdOn: 1}, limit:Session.get('imglimit')});
 		}
 	}
 });
@@ -100,5 +104,20 @@ Template.editImg.events({
 		var imgDesc = $("#eimgDesc").val();
 		ImagesDB.update({_id:eId}, {$set:{"title":imgTitle, "path":imgPath, "desc":imgDesc}});
 		$('#editImgModal').modal("hide");
+	}
+});
+
+lastScrollTop = 0;
+$(window).scroll(function(event){
+	// test if we are near the bottom of the window
+	if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+		// where are we in the page?
+		var scrollTop = $(this).scrollTop();
+		//test if we are going down
+		if (scrollTop > lastScrollTop) {
+			// yes we are heading down
+			Session.set('imglimit', Session.get('imglimit') + 3);
+		}
+		lastScrollTop = scrollTop;
 	}
 });
