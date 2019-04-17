@@ -1,16 +1,31 @@
 body {
-  padding: 10px;
-  font-family: sans-serif;
+	padding: 10px;
+	font-family: sans-serif;
 }
 
-.allImages {
-	width: 100%;
-}
-
-.addImgPreview {
+#addImgPreview, #ImgPreview {
 	width: 250px;
 }
 
-.loginButtons {
+.js-addImg {
 	color: white;
+}
+
+.allImages{
+	width: 100%;
+	object-fit: cover;
+}
+
+.login-link-text{
+	color: white !important;
+}
+
+.card{
+	max-height: 600px;
+}
+
+.imgFrame{
+	width: 100%;
+	max-height: 450px;
+	overflow: hidden;
 }
